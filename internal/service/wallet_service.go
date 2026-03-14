@@ -6,7 +6,6 @@ import (
 	"ewallet/internal/dto"
 	"ewallet/internal/entity"
 	"ewallet/internal/repository"
-	"fmt"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
@@ -326,8 +325,6 @@ func (w *walletServiceImpl) TransferWallet(c context.Context, req *dto.TransferW
 		//cek status wallet
 		if fromWallet.Status != entity.WalletStatusActive || toWallet.Status != entity.WalletStatusActive {
 			w.Log.Infof("transfer: wallet suspended")
-			fmt.Printf("from wallet: %+v", fromWallet.Status)
-			fmt.Printf("to wallet: %+v", toWallet.Status)
 			return errors.New("wallet suspended")
 		}
 
