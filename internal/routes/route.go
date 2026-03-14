@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func NewRouter(users controller.UserController) *gin.Engine {
+func NewRouter(users controller.UserController, wallet controller.WalletController) *gin.Engine {
 	r := gin.Default()
 
 	r.Use(cors.New(cors.Config{
@@ -26,6 +26,16 @@ func NewRouter(users controller.UserController) *gin.Engine {
 			usr.GET("/:id", users.GetByID)
 			usr.DELETE("/:id", users.Delete)
 
+		}
+
+		wal := v1.Group("/wallets")
+		{
+			wal.POST("", wallet.Create)
+			wal.PUT("/:walletID/suspend", wallet.SuspendWallet)
+			wal.GET("/:walletID", wallet.GetWallet)
+			wal.POST("/:walletID/topup", wallet.TopUpWallet)
+			wal.POST("/:walletID/pay", wallet.PayingWallet)
+			wal.POST("/transfer", wallet.TransferWallet)
 		}
 	}
 

@@ -9,9 +9,9 @@ import (
 
 type Ledger struct {
 	ID          uuid.UUID       `gorm:"type:uuid;default:uuid_generate_v4();primaryKey" json:"id"`
-	WalletID    uuid.UUID       `gorm:"type:uuid;notnull;index:wallet_id" json:"wallet_id"`
+	WalletID    uuid.UUID       `gorm:"type:uuid;notnull;uniqueIndex:ref_wallet" json:"wallet_id"`
 	Wallet      Wallet          `gorm:"foreignKey:WalletID;" json:"wallet"`
-	ReferenceID string          `gorm:"type:varchar(100);notnull;uniqueIndex" json:"reference_id"`
+	ReferenceID string          `gorm:"type:varchar(100);notnull;uniqueIndex:ref_wallet" json:"reference_id"`
 	Amount      decimal.Decimal `gorm:"type:decimal(20,2);notnull" json:"amount"`
 	Currency    string          `gorm:"type:varchar(3);notnull" json:"currency"`
 	Type        LedgerType      `gorm:"type:varchar(20);notnull" json:"type"`

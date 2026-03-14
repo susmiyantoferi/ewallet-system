@@ -31,5 +31,5 @@ func (r *repositoryImpl[T]) Delete(db *gorm.DB, id any) error {
 
 func (r *repositoryImpl[T]) GetByID(db *gorm.DB, id any) (*T, error) {
 	var entity T
-	return &entity, db.First(&entity, id).Error
+	return &entity, db.Where("id = ?", id).Take(&entity).Error
 }
