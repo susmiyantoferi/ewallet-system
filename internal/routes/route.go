@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func NewRouter(users controller.UserController, wallet controller.WalletController) *gin.Engine {
+func NewRouter(users controller.UserController, wallet controller.WalletController, ledger controller.LedgerController) *gin.Engine {
 	r := gin.Default()
 
 	r.Use(cors.New(cors.Config{
@@ -36,6 +36,11 @@ func NewRouter(users controller.UserController, wallet controller.WalletControll
 			wal.POST("/:walletID/topup", wallet.TopUpWallet)
 			wal.POST("/:walletID/pay", wallet.PayingWallet)
 			wal.POST("/transfer", wallet.TransferWallet)
+		}
+
+		led := v1.Group("/ledgers")
+		{
+			led.GET("/:walletID/history", ledger.GetByWalletID)
 		}
 	}
 

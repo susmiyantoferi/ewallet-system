@@ -33,7 +33,12 @@ func main() {
 	walletService := service.NewWalletServiceImpl(walletRepo, userRepo, db, log, validate)
 	walletController := controller.NewWalletControllerImpl(walletService)
 
-	router := routes.NewRouter(userController, walletController)
+	//ledger
+	ledgerRepo := repository.NewLedgerRepositoryImpl()
+	ledgerService := service.NewLedgerServiceImpl(ledgerRepo, walletRepo, db, log, validate)
+	ledgerControler := controller.NewLedgerControllerImpl(ledgerService)
+
+	router := routes.NewRouter(userController, walletController, ledgerControler)
 
 	router.Run(config.App.Port)
 }
