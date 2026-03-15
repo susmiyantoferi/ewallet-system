@@ -155,14 +155,14 @@ func (w *walletControllerImpl) PayingWallet(c *gin.Context) {
 		return
 	}
 
-	// walletID := c.Param("walletID")
-	// id, err := uuid.Parse(walletID)
-	// if err != nil {
-	// 	c.JSON(http.StatusBadRequest, dto.ErrorResponse("invalid ID"))
-	// 	return
-	// }
+	walletID := c.Param("walletID")
+	id, err := uuid.Parse(walletID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, dto.ErrorResponse("invalid ID"))
+		return
+	}
 
-	// req.WalletID = id
+	req.WalletID = id
 
 	if err := w.WalletService.PayingWallet(c.Request.Context(), &req); err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
